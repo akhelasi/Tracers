@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+  <title>AR Project _ Gesture Interactions - A-Frame & AR.js</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="stylesheet" href="./styles/index.css">
+
+  <!-- <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1.4.0/dist/aframe-master.min.js"></script> -->
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+  
+  <!-- <script src="./arjs-gestures-master/dist/gestures.js"></script> -->
+  <!--   
+  <script src="./arjs-gestures-master/gesture-detector.js"></script>
+  <script src="./arjs-gestures-master/gesture-handler.js"></script>
+   -->
+  <script src="./js/index.js" defer></script>
+  
+</head>
+
+<body>
+  <div class="arjs-loader">
+    <div>
+      <img src="./assets/images/tracer-image.png" alt="Loading Image">
+      <div>Based on Tracer Technology</div>
+      <div>NEC © 2025</div>
+    </div>
+    <div id="loadingText">Loading, please wait...</div>
+  </div>
+
+  <div id="logoContainer">
+    <img id="tracerLogo" src="./assets/images/tracer-image.png" alt="tracerLogo Image">
+  </div>
+
+  <!-- "Memory" Button -->
+  <div id="memory-button-container">
+    <button id="memory-button" class="active-button">
+      Memory
+    </button>
+  </div>
+
+<!--   
+            renderer="logarithmicDepthBuffer: true; precision: medium;" 
+  -->
+  <a-scene  arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+            embedded 
+            renderer="logarithmicDepthBuffer: true;" 
+            vr-mode-ui="enabled: false;" 
+            gesture-detector
+            id="scene">
+
+    <a-assets> 
+      <!-- 1. on 1-st picture -->
+      <a-asset-item id="model1-1" src="https://tracer-geometry.web.cern.ch/muon-barrel-inner-cut3.glb"></a-asset-item>
+      <a-asset-item id="model1-2" src="https://tracer-geometry.web.cern.ch/muon-barrel-middle-cut3.glb"></a-asset-item>
+      <a-asset-item id="model1-3" src="https://tracer-geometry.web.cern.ch/muon-barrel-outer-cut3.glb"></a-asset-item>
+      
+      <a-asset-item id="model1-4" src="https://tracer-geometry.web.cern.ch/muon-small-wheel-frame-cut3.glb"></a-asset-item>
+      <a-asset-item id="model1-5" src="https://tracer-geometry.web.cern.ch/muon-small-wheel-njd-cut3.glb"></a-asset-item>
+      <a-asset-item id="model1-6" src="https://tracer-geometry.web.cern.ch/muon-small-wheel-hub-cut3.glb"></a-asset-item>
+      
+      <a-asset-item id="model1-7" src="https://tracer-geometry.web.cern.ch/muon-tgc1-cut3.glb"></a-asset-item>
+      <a-asset-item id="model1-8" src="https://tracer-geometry.web.cern.ch/muon-tgc2-cut3.glb"></a-asset-item>
+      <a-asset-item id="model1-9" src="https://tracer-geometry.web.cern.ch/muon-tgc3-cut3.glb"></a-asset-item>
+      <a-asset-item id="model1-10" src="https://tracer-geometry.web.cern.ch/muon-mdt-cut3.glb"></a-asset-item>
+      <a-asset-item id="model1-11" src="https://tracer-geometry.web.cern.ch/muon-extra-wheel-cut3.glb"></a-asset-item>
+      <a-asset-item id="model1-12" src="https://tracer-geometry.web.cern.ch/muon-small-wheel-chambers-cut3.glb"></a-asset-item>
+      <a-asset-item id="model1-13" src="https://tracer-geometry.web.cern.ch/muon-outer-wheel-cut3.glb"></a-asset-item>
+
+      <a-asset-item id="model1-14" src="https://tracer-geometry.web.cern.ch/calorimeter-lar-barrel-cut3.glb"></a-asset-item>
+      <a-asset-item id="model1-15" src="https://tracer-geometry.web.cern.ch/calorimeter-lar-barrel-cut3.glb"></a-asset-item>
+      <a-asset-item id="model1-16" src="https://tracer-geometry.web.cern.ch/calorimeter-tile-barrel-cut3.glb"></a-asset-item>
+      <a-asset-item id="model1-17" src="https://tracer-geometry.web.cern.ch/calorimeter-tile-barrel-feet-cut3.glb"></a-asset-item>
+      <a-asset-item id="model1-18" src="https://tracer-geometry.web.cern.ch/calorimeter-tile-endcap-cut3.glb"></a-asset-item>
+      <a-asset-item id="model1-19" src="https://tracer-geometry.web.cern.ch/calorimeter-tile-endcap-feet-cut3.glb"></a-asset-item>
+
+      <!-- 2. on 2-st picture -->
+      <a-asset-item id="model2-1" src="https://tracer-geometry.web.cern.ch/solenoid_new.glb"></a-asset-item>
+      
+      <!-- 3. on 3-st picture -->
+      <a-asset-item id="model3-1" src="https://tracer-geometry.web.cern.ch/magnet-toroid-barrel.glb"></a-asset-item>
+      <a-asset-item id="model3-2" src="https://tracer-geometry.web.cern.ch/calorimeter-tile-barrel.glb"></a-asset-item>
+      <a-asset-item id="model3-3" src="https://tracer-geometry.web.cern.ch/calorimeter-tile-endcap-sidec.glb"></a-asset-item>
+      <a-asset-item id="model3-4" src="https://tracer-geometry.web.cern.ch/support-btwarm.glb"></a-asset-item>
+      <a-asset-item id="model3-5" src="https://tracer-geometry.web.cern.ch/calorimeter-tile-barrel-feet.glb"></a-asset-item>
+      <a-asset-item id="model3-6" src="https://tracer-geometry.web.cern.ch/calorimeter-tile-endcap-feet.glb"></a-asset-item>
+      <a-asset-item id="model3-7" src="https://tracer-geometry.web.cern.ch/vr/feet.glb"></a-asset-item>
+
+      <!-- Models for Images 4-15 (using same URLs as placeholders) -->
+      <a-asset-item id="model4-1" src="https://tracer-geometry.web.cern.ch/muon-barrel-inner-cut3.glb"></a-asset-item>
+      <a-asset-item id="model5-1" src="https://tracer-geometry.web.cern.ch/solenoid_new.glb"></a-asset-item>
+      <a-asset-item id="model6-1" src="https://tracer-geometry.web.cern.ch/magnet-toroid-barrel.glb"></a-asset-item>
+      <a-asset-item id="model7-1" src="https://tracer-geometry.web.cern.ch/muon-barrel-middle-cut3.glb"></a-asset-item>
+      <a-asset-item id="model8-1" src="https://tracer-geometry.web.cern.ch/calorimeter-tile-barrel.glb"></a-asset-item>
+      <a-asset-item id="model9-1" src="https://tracer-geometry.web.cern.ch/muon-barrel-outer-cut3.glb"></a-asset-item>
+      <a-asset-item id="model10-1" src="https://tracer-geometry.web.cern.ch/muon-small-wheel-frame-cut3.glb"></a-asset-item>
+      <a-asset-item id="model11-1" src="https://tracer-geometry.web.cern.ch/calorimeter-lar-barrel-cut3.glb"></a-asset-item>
+      <a-asset-item id="model12-1" src="https://tracer-geometry.web.cern.ch/muon-tgc1-cut3.glb"></a-asset-item>
+      <a-asset-item id="model13-1" src="https://tracer-geometry.web.cern.ch/muon-mdt-cut3.glb"></a-asset-item>
+      <a-asset-item id="model14-1" src="https://tracer-geometry.web.cern.ch/calorimeter-tile-endcap-cut3.glb"></a-asset-item>
+      <a-asset-item id="model15-1" src="https://tracer-geometry.web.cern.ch/muon-outer-wheel-cut3.glb"></a-asset-item>
+    
+    </a-assets>
+
+    <!-- პირველი NFT მარკერი -->
+    <!-- url="https://raw.githubusercontent.com/akhelasi/Tracer-VR/master/tracerarb-atlas/assets/images/Detector_Overview_1-1(NFT)/Detector_Overview_1-1-324dpi"  -->
+    <a-nft  type="nft" 
+            url="./assets/images/first/NFT/Magnet-1-350dpi-1" 
+            smooth="true" 
+            smoothcount="60"
+            smoothtolerance="30" 
+            smooththreshold="50"
+            size="0.1699 0.1116"
+            raycaster="objects: .clickable"
+            emitevents="true"
+            cursor="fuse: false; rayOrigin: mouse;"
+            id="marker1"
+            >
+      <a-entity scale="10 10 10" 
+                position="1 0 0"
+                class="clickab"
+                visible="false"
+                >
+      </a-entity>
+    </a-nft>
+
+    <!-- მეორე NFT მარკერი -->
+    <!-- url="https://raw.githubusercontent.com/akhelasi/Tracer-VR/master/tracerarb-atlas/assets/images/Detector_Overview_1-2(NFT)/Detector_Overview_1-2-324dpi"  -->
+    <a-nft  type="nft" 
+            url="./assets/images/second/NFT/magnet-2-350dpi-1"
+            smooth="true" 
+            smoothcount="10"
+            smoothtolerance="0.01" 
+            smooththreshold="5"
+            raycaster="objects: .clickable"
+            emitevents="true"
+            cursor="fuse: false; rayOrigin: mouse;"
+            id="marker2"
+            >
+      <a-entity scale="10 10 10" 
+                position="1 0 0"
+                class="clickab"
+                visible="false"
+                >
+      </a-entity>
+    </a-nft>
+
+    <!-- მესამე NFT მარკერი -->
+    <!-- url="https://raw.githubusercontent.com/akhelasi/Tracer-VR/master/tracerarb-atlas/assets/images/Detector_Overview_1-2(NFT)/Detector_Overview_1-2-324dpi"  -->
+    <a-nft  type="nft" 
+            url="./assets/images/third/NFT/magnet-3-350dpi-1"
+            smooth="true" 
+            smoothcount="10"
+            smoothtolerance="0.01" 
+            smooththreshold="5"
+            raycaster="objects: .clickable"
+            emitevents="true"
+            cursor="fuse: false; rayOrigin: mouse;"
+            id="marker3"
+            >
+      <a-entity position="1 0 0"
+                class="clickab"
+                visible="false"
+                >
+      </a-entity>
+    </a-nft>
+
+    
+    <!-- Additional markers 4-15 -->
+    <a-nft type="nft" url="./assets/NFT/NFT_2-1/Image_2-1,2" smooth="true" smoothcount="10"
+      smoothtolerance="0.01" smooththreshold="5" raycaster="objects: .clickable" emitevents="true"
+      cursor="fuse: false; rayOrigin: mouse;" id="marker4">
+      <a-entity position="1 0 0" class="clickab" visible="false"></a-entity>
+    </a-nft>
+    
+    <a-nft type="nft" url="./assets/NFT/NFT_2-2/Image_2-2" smooth="true" smoothcount="10"
+      smoothtolerance="0.01" smooththreshold="5" raycaster="objects: .clickable" emitevents="true"
+      cursor="fuse: false; rayOrigin: mouse;" id="marker5">
+      <a-entity position="1 0 0" class="clickab" visible="false"></a-entity>
+    </a-nft>
+    
+    <a-nft type="nft" url="./assets/NFT/NFT_3-1/Image_3-1" smooth="true" smoothcount="10"
+      smoothtolerance="0.01" smooththreshold="5" raycaster="objects: .clickable" emitevents="true"
+      cursor="fuse: false; rayOrigin: mouse;" id="marker6">
+      <a-entity position="1 0 0" class="clickab" visible="false"></a-entity>
+    </a-nft>
+    
+    <a-nft type="nft" url="./assets/NFT/NFT_3-2/Image_3-2" smooth="true" smoothcount="10"
+      smoothtolerance="0.01" smooththreshold="5" raycaster="objects: .clickable" emitevents="true"
+      cursor="fuse: false; rayOrigin: mouse;" id="marker7">
+      <a-entity position="1 0 0" class="clickab" visible="false"></a-entity>
+    </a-nft>
+    
+    <a-nft type="nft" url="./assets/NFT/NFT_3-3/Image_3-3" smooth="true" smoothcount="10"
+      smoothtolerance="0.01" smooththreshold="5" raycaster="objects: .clickable" emitevents="true"
+      cursor="fuse: false; rayOrigin: mouse;" id="marker8">
+      <a-entity position="1 0 0" class="clickab" visible="false"></a-entity>
+    </a-nft>
+    
+    <a-nft type="nft" url="./assets/NFT/NFT_4-1/Image_4-1" smooth="true" smoothcount="10"
+      smoothtolerance="0.01" smooththreshold="5" raycaster="objects: .clickable" emitevents="true"
+      cursor="fuse: false; rayOrigin: mouse;" id="marker9">
+      <a-entity position="1 0 0" class="clickab" visible="false"></a-entity>
+    </a-nft>
+    
+    <a-nft type="nft" url="./assets/NFT/NFT_4-2/Image_4-2" smooth="true" smoothcount="10"
+      smoothtolerance="0.01" smooththreshold="5" raycaster="objects: .clickable" emitevents="true"
+      cursor="fuse: false; rayOrigin: mouse;" id="marker10">
+      <a-entity position="1 0 0" class="clickab" visible="false"></a-entity>
+    </a-nft>
+    
+    <a-nft type="nft" url="./assets/NFT/NFT_4-3/Image_4-3" smooth="true" smoothcount="10"
+      smoothtolerance="0.01" smooththreshold="5" raycaster="objects: .clickable" emitevents="true"
+      cursor="fuse: false; rayOrigin: mouse;" id="marker11">
+      <a-entity position="1 0 0" class="clickab" visible="false"></a-entity>
+    </a-nft>
+    
+    <a-nft type="nft" url="./assets/NFT/NFT_4-4/Image_4-4" smooth="true" smoothcount="10"
+      smoothtolerance="0.01" smooththreshold="5" raycaster="objects: .clickable" emitevents="true"
+      cursor="fuse: false; rayOrigin: mouse;" id="marker12">
+      <a-entity position="1 0 0" class="clickab" visible="false"></a-entity>
+    </a-nft>
+    
+    <a-nft type="nft" url="./assets/NFT/NFT_5-1/Image_5-1" smooth="true" smoothcount="10"
+      smoothtolerance="0.01" smooththreshold="5" raycaster="objects: .clickable" emitevents="true"
+      cursor="fuse: false; rayOrigin: mouse;" id="marker13">
+      <a-entity position="1 0 0" class="clickab" visible="false"></a-entity>
+    </a-nft>
+    
+    <a-nft type="nft" url="./assets/NFT/NFT_5-2/Image_5-2" smooth="true" smoothcount="10"
+      smoothtolerance="0.01" smooththreshold="5" raycaster="objects: .clickable" emitevents="true"
+      cursor="fuse: false; rayOrigin: mouse;" id="marker14">
+      <a-entity position="1 0 0" class="clickab" visible="false"></a-entity>
+    </a-nft>
+    
+    <a-nft type="nft" url="./assets/NFT/NFT_5-3/Image_5-3" smooth="true" smoothcount="10"
+      smoothtolerance="0.01" smooththreshold="5" raycaster="objects: .clickable" emitevents="true"
+      cursor="fuse: false; rayOrigin: mouse;" id="marker15">
+      <a-entity position="1 0 0" class="clickab" visible="false"></a-entity>
+    </a-nft>
+
+
+    <a-entity id="entmarker1"
+              position="0 0 -300"
+              visible="false"
+              >
+      <a-entity scale="1 1 1" 
+                position="0 0 0"
+                rotation="0 0 0"
+                class="clickable"
+                id="entmodel1"
+                visible="false"
+                gesture-handler
+                >
+        <a-entity position="0 0 0" rotation="0 -90 60"> 
+          <a-entity gltf-model="#model1-1"></a-entity>
+          <a-entity gltf-model="#model1-2"></a-entity>
+          <a-entity gltf-model="#model1-3"></a-entity>
+          <a-entity gltf-model="#model1-4"></a-entity>
+          <a-entity gltf-model="#model1-5"></a-entity>
+          <a-entity gltf-model="#model1-6"></a-entity>
+          <a-entity gltf-model="#model1-7"></a-entity>
+          <a-entity gltf-model="#model1-8"></a-entity>
+          <a-entity gltf-model="#model1-9"></a-entity>
+          <a-entity gltf-model="#model1-10"></a-entity>
+          <a-entity gltf-model="#model1-11"></a-entity>
+          <a-entity gltf-model="#model1-12"></a-entity>
+          <a-entity gltf-model="#model1-13"></a-entity>
+          <a-entity gltf-model="#model1-14"></a-entity>
+          <a-entity gltf-model="#model1-15"></a-entity>
+          <a-entity gltf-model="#model1-16"></a-entity>
+          <a-entity gltf-model="#model1-17"></a-entity>
+          <a-entity gltf-model="#model1-18"></a-entity>
+          <a-entity gltf-model="#model1-19"></a-entity>
+        </a-entity>
+      </a-entity> 
+      <!-- position="650.1 426.9 0" -->
+
+      <a-entity scale="15 15 15" 
+                position="0 0 0"
+                rotation="0 0 0"
+                class="clickable"
+                id="entmodel2"
+                visible="false"
+                gesture-handler
+                >
+        <a-entity position="0 0 0" rotation="-80 60 -60">
+          <a-entity gltf-model="#model2-1"></a-entity> <!-- ანიმაციითაა ეს მოდელი -->
+        </a-entity>
+      </a-entity>
+
+      <a-entity scale="1 1 1" 
+                position="0 0 0"
+                rotation="0 0 0"
+                class="clickable"
+                id="entmodel3"
+                visible="false"
+                gesture-handler
+                >
+        <a-entity position="0 0 0" rotation="-90 0 0">
+          
+          <a-entity gltf-model="#model3-1"></a-entity>
+          <a-entity gltf-model="#model3-2"></a-entity>
+          <a-entity gltf-model="#model3-3"></a-entity>
+          <a-entity gltf-model="#model3-4"></a-entity>
+          <a-entity gltf-model="#model3-5"></a-entity>
+          <a-entity gltf-model="#model3-6"></a-entity>
+          <a-entity gltf-model="#model3-7"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      
+      <!-- Models 4-15 -->
+      <a-entity scale="1 1 1" position="0 0 0" rotation="0 0 0" class="clickable" id="entmodel4" visible="false" gesture-handler>
+        <a-entity position="0 0 0" rotation="0 -90 60">
+          <a-entity gltf-model="#model4-1"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity scale="15 15 15" position="0 0 0" rotation="0 0 0" class="clickable" id="entmodel5" visible="false" gesture-handler>
+        <a-entity position="0 0 0" rotation="-80 60 -60">
+          <a-entity gltf-model="#model5-1"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity scale="1 1 1" position="0 0 0" rotation="0 0 0" class="clickable" id="entmodel6" visible="false" gesture-handler>
+        <a-entity position="0 0 0" rotation="-90 0 0">
+          <a-entity gltf-model="#model6-1"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity scale="1 1 1" position="0 0 0" rotation="0 0 0" class="clickable" id="entmodel7" visible="false" gesture-handler>
+        <a-entity position="0 0 0" rotation="0 -90 60">
+          <a-entity gltf-model="#model7-1"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity scale="1 1 1" position="0 0 0" rotation="0 0 0" class="clickable" id="entmodel8" visible="false" gesture-handler>
+        <a-entity position="0 0 0" rotation="-90 0 0">
+          <a-entity gltf-model="#model8-1"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity scale="1 1 1" position="0 0 0" rotation="0 0 0" class="clickable" id="entmodel9" visible="false" gesture-handler>
+        <a-entity position="0 0 0" rotation="0 -90 60">
+          <a-entity gltf-model="#model9-1"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity scale="1 1 1" position="0 0 0" rotation="0 0 0" class="clickable" id="entmodel10" visible="false" gesture-handler>
+        <a-entity position="0 0 0" rotation="0 -90 60">
+          <a-entity gltf-model="#model10-1"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity scale="1 1 1" position="0 0 0" rotation="0 0 0" class="clickable" id="entmodel11" visible="false" gesture-handler>
+        <a-entity position="0 0 0" rotation="-90 0 0">
+          <a-entity gltf-model="#model11-1"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity scale="1 1 1" position="0 0 0" rotation="0 0 0" class="clickable" id="entmodel12" visible="false" gesture-handler>
+        <a-entity position="0 0 0" rotation="0 -90 60">
+          <a-entity gltf-model="#model12-1"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity scale="1 1 1" position="0 0 0" rotation="0 0 0" class="clickable" id="entmodel13" visible="false" gesture-handler>
+        <a-entity position="0 0 0" rotation="0 -90 60">
+          <a-entity gltf-model="#model13-1"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity scale="1 1 1" position="0 0 0" rotation="0 0 0" class="clickable" id="entmodel14" visible="false" gesture-handler>
+        <a-entity position="0 0 0" rotation="-90 0 0">
+          <a-entity gltf-model="#model14-1"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity scale="1 1 1" position="0 0 0" rotation="0 0 0" class="clickable" id="entmodel15" visible="false" gesture-handler>
+        <a-entity position="0 0 0" rotation="0 -90 60">
+          <a-entity gltf-model="#model15-1"></a-entity>
+        </a-entity>
+      </a-entity>
+
+    </a-entity>
+
+    <a-entity camera id="camera"></a-entity>
+  </a-scene>
+</body>
+</html>
