@@ -18,9 +18,9 @@
     let currentSize = cube.style.transform.slice(7,-4);
     console.log(currentSize)
     if (y > 0) {
-        newSize = parseInt(currentSize) + 5 - (90 * ((parseInt(currentSize) + 5) > 90));
+        newSize = parseInt(currentSize) + 65 - (90 * ((parseInt(currentSize) + 65) > 90));
     } else {
-        newSize = parseInt(currentSize) - 5 + (90 * ((parseInt(currentSize) - 5) < -90));
+        newSize = parseInt(currentSize) - 65 + (90 * ((parseInt(currentSize) - 65) < -90));
     }
     
     cube.style.transform = cube.style.transform.slice(0,7) + newSize + cube.style.transform.slice(-4);
